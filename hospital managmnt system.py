@@ -10,13 +10,31 @@ while(True):
     """)
     ##creating database connectivity
     from prettytable import PrettyTable
+    import os
     import mysql.connector
-    passwd=str(input("ENTER THE DATABASE PASSWORD:"))
-    if passwd!='kapil':
-        break
-
-    mysql=mysql.connector.connect(host="127.0.0.1",user="root",passwd=passwd)
-    mycursor=mysql.cursor()
+    
+    # Fetch password from environment variable
+    stored_passwd = os.getenv("MYSQL_PASSWORD")
+    
+    if not stored_passwd:
+        print("Error: MYSQL_PASSWORD environment variable is not set!")
+        exit()
+    
+    # Ask user for password input
+    user_passwd = input("ENTER THE DATABASE PASSWORD: ")
+    
+    # Compare user input with stored password
+    if user_passwd != stored_passwd:
+        print("Incorrect password! Access denied.")
+        exit()
+    
+    # Connect to MySQL with the verified password
+    try:
+        mysql = mysql.connector.connect(host="127.0.0.1", user="root", passwd=user_passwd)
+        mycursor = mysql.cursor()
+        print("✅ Successfully connected to MySQL!")
+    except mysql.connector.Error as err:
+        print(f"❌ MySQL Connection Error: {err}")
     #creating database
     mycursor.execute("create database if not exists max_hospitals")
     mycursor.execute("use max_hospitals")
