@@ -184,7 +184,7 @@ DELETE /api/patients/:id       # Delete patient
 GET  /api/appointments         # List appointments
 POST /api/appointments        # Create appointment
 ```
-![Uploading mermaid-ai-diagram-2025-10-01-170106.png…]()
+
 ## Testing
 
 Run backend tests (example):
